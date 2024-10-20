@@ -5,3 +5,4 @@
  - [Урок 3](./lesson-3.md)
  - [Урок 4](./lesson-4.md)
  - [Урок 5](./lesson-5.md) 
+ - [Урок 6](./lesson-6.md) 
