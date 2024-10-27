@@ -29,8 +29,6 @@ VALUES ('2024-01-10', 100.00, 'Product A'),
        ('2024-11-01', 70.90, 'Product S'),
        ('2024-12-10', 600.50, 'Product T');
 
-drop function get_sales_report_by_quarter;
-
 CREATE OR REPLACE FUNCTION get_sales_report_by_quarter(quarter INTEGER)
     RETURNS TABLE
             (
