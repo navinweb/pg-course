@@ -1,3 +1,4 @@
+```
 CREATE TABLE sales
 (
     id        SERIAL PRIMARY KEY,
@@ -70,3 +71,4 @@ SELECT * FROM get_sales_report_by_quarter(3);
 SELECT * FROM get_sales_report_by_quarter(4);
 SELECT * FROM get_sales_report_by_quarter(NULL);
 SELECT * FROM get_sales_report_by_quarter(5);
+```
