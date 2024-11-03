@@ -141,6 +141,7 @@ UPDATE t SET js = js::jsonb || '{"a":1}';
 
 ## Блоатинг индексов
 
+```
 CREATE INDEX idx_js ON t USING gin (js);
 SELECT
     pg_size_pretty(pg_relation_size('idx_js')); -- 63 MB
@@ -151,3 +152,4 @@ SELECT
 
 REINDEX INDEX idx_js;
 SELECT pg_size_pretty(pg_relation_size('idx_js')); -- 63 MB
+```
