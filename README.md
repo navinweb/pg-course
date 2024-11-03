@@ -8,3 +8,4 @@
  - [Урок 6](./lesson-6.md) 
  - [Урок 7](./lesson-7.md) 
  - [Урок 8](./lesson-8.md) 
+ - [Урок 9](./lesson-9.md) 
