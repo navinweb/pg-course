@@ -29,7 +29,7 @@ VALUES ('2024-01-10', 100.00, 'Product A'),
        ('2024-11-01', 70.90, 'Product S'),
        ('2024-12-10', 600.50, 'Product T');
 
-CREATE OR REPLACE FUNCTION get_sales_report_by_quarter(quarter INTEGER)
+CREATE OR REPLACE FUNCTION get_sales_report(report_date DATE DEFAULT NULL)
     RETURNS TABLE
             (
                 id        INTEGER,
@@ -39,34 +39,27 @@ CREATE OR REPLACE FUNCTION get_sales_report_by_quarter(quarter INTEGER)
             )
 AS
 $$
+DECLARE
+    quarter INTEGER;
+    start_month INTEGER;
+    end_month INTEGER;
 BEGIN
-    IF quarter IS NULL THEN
-        RAISE NOTICE 'Параметр quarter равен NULL. Используйте 1, 2, 3 или 4.';
-        RETURN;
-    ELSIF quarter < 1 OR quarter > 4 THEN
-        RAISE NOTICE 'Параметр quarter неверный. Используйте 1, 2, 3 или 4.';
-        RETURN;
-    END IF;
+    report_date := COALESCE(report_date, CURRENT_DATE);
 
-    DECLARE
-        start_month INTEGER := (quarter - 1) * 3 + 1;
-        end_month   INTEGER := quarter * 3;
-    BEGIN
-        RETURN QUERY
-            SELECT s.id,
-                   s.sale_date,
-                   s.amount,
-                   s.product
-            FROM sales s
-            WHERE EXTRACT(MONTH FROM s.sale_date) BETWEEN start_month AND end_month;
-    END;
+    quarter := FLOOR((EXTRACT(MONTH FROM report_date) - 1) / 3) + 1;
+
+    start_month := (quarter - 1) * 3 + 1;
+    end_month := quarter * 3;
+
+    RETURN QUERY
+        SELECT *
+        FROM sales s
+        WHERE EXTRACT(MONTH FROM s.sale_date) BETWEEN start_month AND end_month;
 END
 $$ LANGUAGE plpgsql;
 
-SELECT * FROM get_sales_report_by_quarter(1);
-SELECT * FROM get_sales_report_by_quarter(2);
-SELECT * FROM get_sales_report_by_quarter(3);
-SELECT * FROM get_sales_report_by_quarter(4);
-SELECT * FROM get_sales_report_by_quarter(NULL);
-SELECT * FROM get_sales_report_by_quarter(5);
+SELECT * FROM get_sales_report();
+SELECT * FROM get_sales_report('2024-01-01');
+SELECT * FROM get_sales_report('2024-04-01');
+SELECT * FROM get_sales_report('2024-09-01');
 ```
